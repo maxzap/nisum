@@ -3,13 +3,15 @@ package com.exercise.nisum.handler;
 import com.exercise.nisum.exception.ExceptionResponse;
 import com.exercise.nisum.exception.NoSuchElementFoundException;
 import com.exercise.nisum.exception.ResourceAlreadyExistsException;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
@@ -21,6 +23,7 @@ import java.util.Map;
 
 //@ControllerAdvice
 //@RestController
+@Order(Ordered.HIGHEST_PRECEDENCE)
 @RestControllerAdvice
 public class RestResponseExceptionHandler extends ResponseEntityExceptionHandler {
 
@@ -51,6 +54,11 @@ public class RestResponseExceptionHandler extends ResponseEntityExceptionHandler
 
     @ExceptionHandler(ResourceAlreadyExistsException.class)
     public final ResponseEntity<ExceptionResponse> handleResourceAlreadyExistsException(ResourceAlreadyExistsException ex, WebRequest req) {
+        var exceptionResponse = getExceptionResponse(ex, req);
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+    @ExceptionHandler(InternalAuthenticationServiceException.class)
+    public final ResponseEntity<ExceptionResponse> handleResourceAlreadyExistsException(InternalAuthenticationServiceException ex, WebRequest req) {
         var exceptionResponse = getExceptionResponse(ex, req);
         return new ResponseEntity<>(exceptionResponse, HttpStatus.UNPROCESSABLE_ENTITY);
     }

@@ -1,10 +1,13 @@
 package com.exercise.nisum.filter;
 
-import com.exercise.nisum.model.UserModel;
-import com.exercise.nisum.service.UserService;
+import com.exercise.nisum.service.MyUserDetailsService;
 import com.exercise.nisum.util.jwt.JwtToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -18,7 +21,7 @@ import java.util.stream.Stream;
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
     @Autowired
-    UserService userService;
+    MyUserDetailsService userDetailsService;
 
     @Autowired
     JwtToken jwtUtilService;
@@ -40,13 +43,18 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
                 } catch (Exception exc) {
                     response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Error al evaluar el token");
-                };
+                }
             }
 
-            if (userId != null) {
+            if (userId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                UserDetails userDetails = this.userDetailsService.loadUserByUsername(userId);
 
-                if (!jwtUtilService.validateToken(jwt)) {
+                if (!jwtUtilService.validateToken(jwt, userDetails)) {
                     response.sendError(HttpStatus.UNAUTHORIZED.value(), "Token invalido");
+                } else {
+                    UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                    usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
                 }
             } else if (jwt == null) {
                 response.sendError(HttpStatus.NOT_ACCEPTABLE.value(), "No estan completos todos los headers requeridos");
@@ -57,8 +65,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-
-        return Stream.of("/app/user/create")
+        return Stream.of("/user/create", "/user/authenticate" )
                 .anyMatch(url -> request.getRequestURI().startsWith(url));
     }
 }

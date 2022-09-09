@@ -1,17 +1,15 @@
 package com.exercise.nisum.util.jwt;
 
-import com.exercise.nisum.model.UserModel;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.function.Function;
 
 @Service
@@ -60,9 +58,9 @@ public class JwtToken {
                 .compact();
     }
 
-    public boolean validateToken(String token) {
+    public boolean validateToken(String token, UserDetails userDetails) {
         final String userId = extractUserId(token);
-        return (!userId.isBlank() && !isTokenExpired(token));
+        return (userDetails.getUsername().equalsIgnoreCase(userId) && !isTokenExpired(token));
     }
 
 

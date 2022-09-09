@@ -12,4 +12,6 @@ public interface UserService {
     UserModel getUserByUserId(String userId);
 
     List<UserModel> findAllUsers();
+
+    Integer deleteUserById(String email);
 }

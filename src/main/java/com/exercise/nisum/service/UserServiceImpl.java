@@ -10,12 +10,13 @@ import com.exercise.nisum.repository.UserRepository;
 import com.exercise.nisum.util.jwt.JwtToken;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
@@ -36,9 +37,8 @@ public class UserServiceImpl implements UserService {
     public CreatedUserResponseDTO registerUser(CreateUserRequestDTO createUserRequestDTO) {
 
         var response = new CreatedUserResponseDTO();
-
         UUID uuid= UUID.randomUUID();
-        var token = jwtToken.generateToken(uuid.toString());
+        var token = jwtToken.generateToken(createUserRequestDTO.getEmail());
 
         UserModel registeredUser = saveUserData(createUserRequestDTO, uuid, token);
 
@@ -64,6 +64,13 @@ public class UserServiceImpl implements UserService {
 
         return result;
     }
+
+    @Override
+    public Integer deleteUserById(String id) {
+        var user = userRepository.deleteUserById(id);
+        return user;
+    }
+
     private UserModel saveUserData(CreateUserRequestDTO createUserRequestDTO, UUID uuid, String token) {
         var user = new UserModel();
         user.setEmail(createUserRequestDTO.getEmail());
