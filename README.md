@@ -28,8 +28,32 @@ _Esto depende del IDE(1) que utilices, seguir indicaciones de la web de [Project
 
 ---
 
-* [Crear un usuario](http://localhost:8080/app/user/create) Realiza el alta del usuario y entrega los datos juntos con el token.
-* [Obtener todos los usarios creados](http://localhost:8080/app/users) Utiliza JWT como metodo de autorizacion (Bearer Token).
+* [Crear un usuario](http://localhost:8080/user/create) Realiza el alta del usuario y entrega los datos juntos con el token.
+```json
+{
+  "name": "Juan Rodriguez",
+  "email": "juan@rodriguez.org",
+  "password": "hunter2!",
+  "phones":
+  [
+    {
+      "number": "1234567",
+      "citycode": "1",
+      "contrycode": "57"
+    }
+  ]
+}
+```
+* [Autenticar un usario creado con usuario y contraseña](http://localhost:8080/user/authenticate) Utiliza el mail y contraseña del usuario para aautenticarlo y renovar el token.
+```json
+{
+  "username": "juan@rodriguez.org",
+  "password": "hunter2!"
+}
+```
+* [Obtener todos los usarios creados](http://localhost:8080/user/find-all) Obtiene todos los usuarios creados y utiliza JWT como metodo de autorizacion (Bearer Token).
+* [Obtener un usuario utilizando UID](http://localhost:8080/user/{id}) Obtiene un usuario a partir de un UID y utiliza JWT como metodo de autorizacion (Bearer Token).
+* [Borrar un usuario utilizando el UID](http://localhost:8080/user/delete/{id}) Borra un usuario a partir de un UID y utiliza JWT como metodo de autorizacion (Bearer Token).
 
 ## Construido con:
 
@@ -44,4 +68,4 @@ Herramientas
 
 
 ## Notas
-(1) _Se recomienda [IntelliJ Community](https://www.jetbrains.com/idea/download/) o [Eclipse IDE for Enterprise Java Developers](https://www.eclipse.org/downloads/packages/)****
+(1) Se recomienda [IntelliJ Community](https://www.jetbrains.com/idea/download/) o [Eclipse IDE for Enterprise Java Developers](https://www.eclipse.org/downloads/packages/)****
