@@ -1,7 +1,6 @@
 package com.exercise.nisum.model;
 
 import lombok.Data;
-import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

@@ -42,7 +42,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                     userId = jwtUtilService.extractUserId(jwt);
 
                 } catch (Exception exc) {
-                    response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Error al evaluar el token");
+                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Error al evaluar el token");
                 }
             }
 
@@ -50,17 +50,21 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(userId);
 
                 if (!jwtUtilService.validateToken(jwt, userDetails)) {
-                    response.sendError(HttpStatus.UNAUTHORIZED.value(), "Token invalido");
+                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token invalido");
                 } else {
                     UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                     usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
                 }
             } else if (jwt == null) {
-                response.sendError(HttpStatus.NOT_ACCEPTABLE.value(), "No estan completos todos los headers requeridos");
+                response.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE, "No estan completos todos los headers requeridos");
             }
         }
-        chain.doFilter(request, response);
+        try {
+            chain.doFilter(request, response);
+        } catch (Exception ex) {
+            logger.error(ex.getMessage());
+        }
     }
 
     @Override

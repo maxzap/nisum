@@ -9,14 +9,14 @@ import javax.validation.ConstraintValidatorContext;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class PasswordlTypeValidator implements ConstraintValidator<PasswordType, Object> {
+public class PasswordTypeValidator implements ConstraintValidator<PasswordType, Object> {
 
     @Value(value = "${password.regex}")
     private String passwordRegex;
 
 
-    private boolean validate(String emailStr) {
-        Matcher matcher = Pattern.compile(passwordRegex, Pattern.CASE_INSENSITIVE).matcher(emailStr);
+    private boolean validate(String passwordStr) {
+        Matcher matcher = Pattern.compile(passwordRegex, Pattern.CASE_INSENSITIVE).matcher(passwordStr);
         return matcher.find();
     }
 
@@ -24,8 +24,8 @@ public class PasswordlTypeValidator implements ConstraintValidator<PasswordType,
     public boolean isValid(Object value, ConstraintValidatorContext context) {
         if (value != null) {
             BeanWrapper wrapper = PropertyAccessorFactory.forBeanPropertyAccess(value);
-            String email = (String) wrapper.getWrappedInstance();
-            return validate(email);
+            String password = (String) wrapper.getWrappedInstance();
+            return validate(password);
         }
         return true;
     }

@@ -16,6 +16,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+    private static final String USER_CREATE = "/user/create";
+    private static final String USER_AUTHENTICATE = "/user/authenticate";
     @Autowired
     private MyUserDetailsService myUserDetailsService;
     @Autowired
@@ -29,7 +31,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().authorizeRequests().antMatchers("/user/create", "/user/authenticate").permitAll().
+        http.csrf().disable().authorizeRequests().antMatchers(USER_CREATE, USER_AUTHENTICATE).permitAll().
                 anyRequest().authenticated()
                 .and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);

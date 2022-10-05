@@ -3,6 +3,7 @@ package com.exercise.nisum.service;
 import com.exercise.nisum.dto.user.CreateUserRequestDTO;
 import com.exercise.nisum.dto.user.CreatedUserResponseDTO;
 import com.exercise.nisum.exception.NoSuchElementFoundException;
+import com.exercise.nisum.exception.ResourceAlreadyExistsException;
 import com.exercise.nisum.model.PhoneModel;
 import com.exercise.nisum.model.UserModel;
 import com.exercise.nisum.repository.PhoneRepository;
@@ -10,6 +11,7 @@ import com.exercise.nisum.repository.UserRepository;
 import com.exercise.nisum.util.jwt.JwtToken;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -73,6 +75,7 @@ public class UserServiceImpl implements UserService {
 
     private UserModel saveUserData(CreateUserRequestDTO createUserRequestDTO, UUID uuid, String token) {
         var user = new UserModel();
+        var registeredUser = new UserModel();
         user.setEmail(createUserRequestDTO.getEmail());
         user.setName(createUserRequestDTO.getName());
         user.setPassword(createUserRequestDTO.getPassword());
@@ -81,8 +84,12 @@ public class UserServiceImpl implements UserService {
         user.setToken(token);
         user.setId(uuid.toString());
 
-        var registeredUser = userRepository.save(user);
-        saveContactData(createUserRequestDTO, uuid.toString());
+        try {
+            registeredUser = userRepository.save(user);
+            saveContactData(createUserRequestDTO, uuid.toString());
+        } catch (DataIntegrityViolationException exc) {
+            throw new ResourceAlreadyExistsException("EMAIL", createUserRequestDTO.getEmail());
+        }
         return registeredUser;
     }
 

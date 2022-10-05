@@ -44,16 +44,32 @@ _Esto depende del IDE(1) que utilices, seguir indicaciones de la web de [Project
   ]
 }
 ```
-* [Autenticar un usario creado con usuario y contraseña](http://localhost:8080/user/authenticate) Utiliza el mail y contraseña del usuario para aautenticarlo y renovar el token.
+
+* [Autenticar un usuario creado con usuario y contraseña](http://localhost:8080/user/authenticate) Utiliza el mail y contraseña del usuario para aautenticarlo y renovar el token.
 ```json
 {
   "username": "juan@rodriguez.org",
   "password": "hunter2!"
 }
 ```
-* [Obtener todos los usarios creados](http://localhost:8080/user/find-all) Obtiene todos los usuarios creados y utiliza JWT como metodo de autorizacion (Bearer Token).
+
+
+* [Obtener todos los usuarios creados](http://localhost:8080/user/find-all) Obtiene todos los usuarios creados y utiliza JWT como metodo de autorizacion (Bearer Token).
 * [Obtener un usuario utilizando UID](http://localhost:8080/user/{id}) Obtiene un usuario a partir de un UID y utiliza JWT como metodo de autorizacion (Bearer Token).
 * [Borrar un usuario utilizando el UID](http://localhost:8080/user/delete/{id}) Borra un usuario a partir de un UID y utiliza JWT como metodo de autorizacion (Bearer Token).
+## Diagramas
+##### Diagrama de solución
+![Alt text](./src/main/resources/assets/img/solution_diagram.svg)
+##### Crear un usuario
+![Alt text](./src/main/resources/assets/img/UserController_createUser.svg)
+##### Autenticar un usuario creado con usuario y contraseña
+![Autenticar un usuario creado con usuario y contraseña](./src/main/resources/assets/img/UserController_authenticateUser.svg)
+##### Borrar un usuario utilizando el UID
+![Borrar un usuario utilizando el UID](./src/main/resources/assets/img/UserController_deleteUserById.svg)
+##### Obtener todos los usuarios creados
+![Obtener todos los usuarios creados](./src/main/resources/assets/img/UserController_findUserById.svg)
+##### Obtener un usuario utilizando UID
+![Obtener un usuario utilizando UID](./src/main/resources/assets/img/UserController_getAllUser.svg)
 
 ## Construido con:
 
@@ -65,6 +81,7 @@ Herramientas
 * [Json Web Token](https://jwt.io/introduction) Herramienta para segurizar la comunicacion entre cliente/servidor
 * [Lombok](https://projectlombok.org/) Libreria para evitar el codigo repetitivo
 * [h2database](https://www.h2database.com/html/main.html) Base de datos en memoria
+
 
 
 ## Notas

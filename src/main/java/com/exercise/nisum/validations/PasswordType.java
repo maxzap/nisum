@@ -12,7 +12,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Target({FIELD, ANNOTATION_TYPE})
 @Retention(RUNTIME)
-@Constraint(validatedBy = PasswordlTypeValidator.class)
+@Constraint(validatedBy = PasswordTypeValidator.class)
 @Documented
 public @interface PasswordType {
     String message() default "No es una contraseña valida";
