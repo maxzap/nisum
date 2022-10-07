@@ -7,3 +7,6 @@ server:
 spring:
   jpa:
     defer-datasource-initialization: true
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher

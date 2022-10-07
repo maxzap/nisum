@@ -69,7 +69,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        return Stream.of("/user/create", "/user/authenticate" )
+        return Stream.of("/favicon.ico", "/swagger-resources", "/swagger-ui/", "/v2/api-docs", "/user/create", "/user/authenticate" )
                 .anyMatch(url -> request.getRequestURI().startsWith(url));
     }
 }

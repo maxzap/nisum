@@ -9,6 +9,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -21,8 +22,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-//@ControllerAdvice
-//@RestController
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @RestControllerAdvice
 public class RestResponseExceptionHandler extends ResponseEntityExceptionHandler {
@@ -57,10 +56,15 @@ public class RestResponseExceptionHandler extends ResponseEntityExceptionHandler
         var exceptionResponse = getExceptionResponse(ex, req);
         return new ResponseEntity<>(exceptionResponse, HttpStatus.UNPROCESSABLE_ENTITY);
     }
+    @ExceptionHandler(BadCredentialsException.class)
+    public final ResponseEntity<ExceptionResponse> handleResourceAlreadyExistsException(BadCredentialsException ex, WebRequest req) {
+        var exceptionResponse = getExceptionResponse(ex, req);
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.UNAUTHORIZED);
+    }
     @ExceptionHandler(InternalAuthenticationServiceException.class)
     public final ResponseEntity<ExceptionResponse> handleResourceAlreadyExistsException(InternalAuthenticationServiceException ex, WebRequest req) {
         var exceptionResponse = getExceptionResponse(ex, req);
-        return new ResponseEntity<>(exceptionResponse, HttpStatus.UNPROCESSABLE_ENTITY);
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(NoSuchElementFoundException.class)

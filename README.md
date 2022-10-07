@@ -1,6 +1,7 @@
-Nisum
----
+# Nisum
 Examen Practico
+
+---
 
 
 ### Pre-requisitos
@@ -10,6 +11,9 @@ Examen Practico
 * Git
 
 ## Instalacion
+
+---
+
 
 ##### Instalar Lombok en el IDE
 
@@ -57,7 +61,18 @@ _Esto depende del IDE(1) que utilices, seguir indicaciones de la web de [Project
 * [Obtener todos los usuarios creados](http://localhost:8080/user/find-all) Obtiene todos los usuarios creados y utiliza JWT como metodo de autorizacion (Bearer Token).
 * [Obtener un usuario utilizando UID](http://localhost:8080/user/{id}) Obtiene un usuario a partir de un UID y utiliza JWT como metodo de autorizacion (Bearer Token).
 * [Borrar un usuario utilizando el UID](http://localhost:8080/user/delete/{id}) Borra un usuario a partir de un UID y utiliza JWT como metodo de autorizacion (Bearer Token).
+
+## Swagger
+
+ ---
+
+
+* [Documentación en Swagger](http://localhost:8080/swagger-ui/index.html) listado de los servicios expuestos.
 ## Diagramas
+
+
+---
+
 ##### Diagrama de solución
 ![Alt text](./src/main/resources/assets/img/solution_diagram.svg)
 ##### Crear un usuario
@@ -85,4 +100,7 @@ Herramientas
 
 
 ## Notas
+
+---
+
 (1) Se recomienda [IntelliJ Community](https://www.jetbrains.com/idea/download/) o [Eclipse IDE for Enterprise Java Developers](https://www.eclipse.org/downloads/packages/)****
