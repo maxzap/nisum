@@ -1,6 +1,8 @@
 package com.exercise.nisum.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -11,6 +13,8 @@ import java.time.LocalDateTime;
         @UniqueConstraint(columnNames={"email"})
 )
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserModel {
 
     @Id

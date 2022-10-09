@@ -24,7 +24,7 @@ public class SwaggerConfig implements WebMvcConfigurer {
                 .securityContexts(Collections.singletonList(securityContext()))
                 .securitySchemes(Collections.singletonList(apiKey()))
                 .select()
-                .apis(RequestHandlerSelectors.any())
+                .apis(RequestHandlerSelectors.basePackage("com.exercise.nisum.controller"))
                 .paths(PathSelectors.any())
                 .build();
     }

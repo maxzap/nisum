@@ -22,7 +22,7 @@ _Esto depende del IDE(1) que utilices, seguir indicaciones de la web de [Project
 
 ##### Ejecutar tests para ver que esta todo en orden
 
-    gradlew verify
+    gradle test
 
 ##### Iniciar aplicacion
 

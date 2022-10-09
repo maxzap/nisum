@@ -19,7 +19,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private static final String USER_CREATE = "/user/create";
     private static final String USER_AUTHENTICATE = "/user/authenticate";
     @Autowired
-    private MyUserDetailsService myUserDetailsService;
+    MyUserDetailsService myUserDetailsService;
     @Autowired
     JwtRequestFilter jwtRequestFilter;
 
